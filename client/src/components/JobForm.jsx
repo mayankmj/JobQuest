@@ -1,14 +1,21 @@
 import InputField from "./InputField";
 import { useState } from "react";
-
+import { saveData } from "../services/api";
 
 const defaultData = {title:"",company:"",location:"",description:""};
 const JobForm = () =>{
 
     const[formData, setFormData] = useState(defaultData)
 
-    const hadnleSubmit = () =>{
+    const handleChange = (e) =>{
+        const {name , value} = e.target;
+        setFormData({...formData,[name]: value})
+    }
 
+    const hadnleSubmit = async (e) =>{
+        e.preventDefault();
+
+        await saveData(formData);
     }
     return(
         <div>
@@ -19,18 +26,35 @@ const JobForm = () =>{
                 <InputField 
                     type="text" 
                     label="Job Title"
+                    onChange = {handleChange}
+                    // for making controlled component
+                    value={formData.title}
+                    id="title"
+                    name="title"
                 />
                 <InputField 
                     type="text" 
                     label="Company"
+                     onChange = {handleChange}
+                    value={formData.company}
+                    id="company"
+                    name="company"
                 />
                 <InputField 
                     type="text" 
                     label="Location"
+                     onChange = {handleChange}
+                    value={formData.location}
+                    id="location"
+                    name="location"
                 />
                 <InputField 
                     type="text" 
                     label="Job Description"
+                     onChange = {handleChange}
+                    value={formData.description}
+                    id="description"
+                    name="description"
                 />
                 <button 
                 type="submit"
