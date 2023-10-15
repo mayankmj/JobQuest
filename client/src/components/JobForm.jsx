@@ -3,7 +3,7 @@ import { useState } from "react";
 import { saveData } from "../services/api";
 
 const defaultData = {title:"",company:"",location:"",description:""};
-const JobForm = () =>{
+const JobForm = ({setShowForm}) =>{
 
     const[formData, setFormData] = useState(defaultData)
 
@@ -12,17 +12,21 @@ const JobForm = () =>{
         setFormData({...formData,[name]: value})
     }
 
-    const hadnleSubmit = async (e) =>{
+    const handleSubmit = async (e) =>{
         e.preventDefault();
 
         await saveData(formData);
+        setFormData(defaultData);
+
+        setShowForm(false);
+
     }
     return(
         <div>
             <h2 className="mt-3 mb-4">
                 Add a Job Listing
             </h2>
-            <form onSubmit={hadnleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <InputField 
                     type="text" 
                     label="Job Title"
